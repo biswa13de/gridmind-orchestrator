@@ -5,7 +5,7 @@ Output: objective weights, battery reserve floors, banned actions, actions that 
         a rationale and a confidence. It never outputs MW values — the optimizer does that.
 
 Two implementations share one contract:
-  * Claude (structured output, validated by guardrails, retried once), used when available;
+  * an LLM (Gemini or Claude, structured output, validated by guardrails, retried once) when available;
   * a deterministic rule-based profile table, used offline and as the fallback.
 """
 from __future__ import annotations

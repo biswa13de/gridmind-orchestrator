@@ -10,8 +10,8 @@ Large language models are unreliable at constrained numerical optimisation. A si
 
 | Concern | Owner | Why |
 |---|---|---|
-| *What* to optimise for in this situation (weights, reserves, bans) | **Strategist agent** (Claude; rule profiles as fallback) | This is a judgment call that depends on the situation. It is the F2 requirement. |
-| Turning messy documents into constraints | **Perception agent** (Claude; deterministic parser as fallback) | Bulletins, notices and work orders are unstructured. |
+| *What* to optimise for in this situation (weights, reserves, bans) | **Strategist agent** (Gemini 3.5 Flash; rule profiles as fallback) | This is a judgment call that depends on the situation. It is the F2 requirement. |
+| Turning messy documents into constraints | **Perception agent** (Gemini 3.5 Flash; deterministic parser as fallback) | Bulletins, notices and work orders are unstructured. |
 | Probabilistic forecasts | **Forecast agent** (quantile gradient boosting plus online conformal calibration) | Uncertainty has to be quantified, not guessed. |
 | *How*: the MW setpoint for every asset | **Scenario-MPC optimiser** (an LP solved by HiGHS) | It is provably optimal for the stated objective and always respects physics. |
 | Physics and safety | **Validator** (deterministic) | Nothing reaches an asset without passing it. |
@@ -47,12 +47,12 @@ The LLM never outputs a megawatt value.
 
 | Component | Model | Notes |
 |---|---|---|
-| Strategist | `claude-opus-5-5` via `client.beta.messages.parse` with a Pydantic `output_format` | Low effort; server-side refusal fallback (`fallbacks="default"`); disk cache keyed by request hash; replay mode for deterministic demos. |
-| Perception | `claude-opus-5-5`, structured output | PDFs are sent as native `document` blocks. The system prompt declares the content to be untrusted data. |
+| Strategist | `gemini-3.5-flash` via `client.models.generate_content` with `response_schema` = the Pydantic model and `response_mime_type="application/json"` | Thinking level `low`; disk cache keyed by request hash; replay mode for deterministic demos. Claude (`claude-opus-5-5`) is a drop-in alternative provider. |
+| Perception | `gemini-3.5-flash`, structured output | PDFs are sent as native `application/pdf` parts. The system instruction declares the content to be untrusted data. |
 | Forecasting | scikit-learn `HistGradientBoostingRegressor` (quantile loss), 12 models | Trained on Jan–Aug 2025 and calibrated on Sep. Oct–Dec is held out. |
 | Optimiser | HiGHS (through `scipy.optimize.linprog`) | About 17,000 variables; 38–50 ms per solve. |
 
-**Offline guarantee.** If no API key is set, or `GRIDMIND_LLM=off`, both agents use their deterministic implementations under the same contract. That is how the evaluation is run, so it is reproducible. The Claude path is covered by tests with a stub client (`tests/test_llm_path.py`).
+**Offline guarantee.** If no API key is set, or `GRIDMIND_LLM=off`, both agents use their deterministic implementations under the same contract. That is how the evaluation is run, so it is reproducible. The LLM path (Gemini and Claude) is covered by tests with stub clients (`tests/test_llm_path.py`).
 
 ## Claim → evidence: **F3 / D2**
 
@@ -61,7 +61,7 @@ The LLM never outputs a megawatt value.
 | **F1** | Determine the optimal cluster of actions | Control room → *Action cluster* every 15 minutes: charge/discharge/hold per battery, buy/sell, curtail per asset, demand response, load shift, "delay selling until ~19:15" | `gridmind/optimizer.py`, `Orchestrator._describe`, `logs/sample_demo_day.jsonl` |
 | **F2** | Determine the optimality criteria for the situation and adjust for uncertainty | The storm bulletin switches the weights (reliability 0.10 → 0.60) and raises reserves (10% → 45%); the price spike, stale forecast and outage each switch the profile. P10–P90 bands feed K-scenario MPC. | `gridmind/strategist.py`, `gridmind/forecast.py`; chaos tests `stale_forecast`, `price_spike`; Monte Carlo: the adaptive strategy dominates every fixed profile |
 | **F3** | Simulate the situation over time, accounting for variations in inputs | Simulation tab: 100 sampled worlds × 48 h × 5 strategies, shown as cost distributions and a Pareto view, plus a live what-if | `gridmind/montecarlo.py`, `eval/results/montecarlo_*.csv` |
-| **D2** | Mostly structured and textual input, high demonstrable reliability | Evaluation tab: 0 violations in every run; 12/12 chaos tests; 0 unserved energy under stress | `eval/results/backtest_summary.csv`, `chaos.csv`, `forecast_calibration.csv`, `tests/` (22 tests) |
+| **D2** | Mostly structured and textual input, high demonstrable reliability | Evaluation tab: 0 violations in every run; 12/12 chaos tests; 0 unserved energy under stress | `eval/results/backtest_summary.csv`, `chaos.csv`, `forecast_calibration.csv`, `tests/` (26 tests) |
 | D3 (not claimed) | Highly heterogeneous multimodal input | PDF bulletins and work orders are read; images and weather maps are not | `gridmind/perception.py` |
 
 **Why D2 and not D3.** Our inputs are time series, text and PDFs. That is "mostly structured and textual". We do not process images, weather maps or audio, so claiming D3 would be overestimation.

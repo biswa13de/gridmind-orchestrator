@@ -19,4 +19,4 @@
 - Its bands are calibrated on Sep 2025.
 - All evaluation (backtest, chaos and Monte Carlo) uses Oct–Dec 2025, which the models never saw.
 
-**Third-party software.** NumPy, pandas, SciPy, HiGHS, scikit-learn, Pydantic, Streamlit, Plotly, pypdf, the Anthropic Python SDK and reportlab (used only to generate sample PDFs). See `requirements.txt` for exact versions. Weather data is provided by Open-Meteo under CC BY 4.0.
+**Third-party software.** NumPy, pandas, SciPy, HiGHS, scikit-learn, Pydantic, Streamlit, Plotly, pypdf, the Google Gen AI SDK, the Anthropic Python SDK and reportlab (used only to generate sample PDFs). See `requirements.txt` for exact versions. Weather data is provided by Open-Meteo under CC BY 4.0.

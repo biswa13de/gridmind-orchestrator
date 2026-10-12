@@ -15,6 +15,7 @@ dependencies = [
     "pyyaml>=6.0",
     "pydantic>=2.7",
     "anthropic>=1.0",
+    "google-genai>=1.50",
     "pypdf>=4.0",
     "streamlit>=1.40",
     "plotly>=5.20",

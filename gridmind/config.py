@@ -1,6 +1,7 @@
 """Portfolio configuration: typed view over config/portfolio.yaml."""
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -8,6 +9,23 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_CONFIG = ROOT / "config" / "portfolio.yaml"
+
+
+def load_dotenv(path: Path = ROOT / ".env") -> None:
+    """Minimal .env loader (KEY=VALUE lines). Variables already set in the environment win."""
+    if not path.exists():
+        return
+    for line in path.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, val = line.partition("=")
+        val = val.strip().strip('"').strip("'")
+        if val:
+            os.environ.setdefault(key.strip(), val)
+
+
+load_dotenv()
 
 
 @dataclass

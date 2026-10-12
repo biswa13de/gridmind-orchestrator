@@ -4,9 +4,8 @@ services:
     image: gridmind-orchestrator
     ports:
       - "8501:8501"
-    environment:
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
-      - GRIDMIND_LLM=${GRIDMIND_LLM:-auto}
-      - GRIDMIND_MODEL=${GRIDMIND_MODEL:-claude-opus-5-5}
+    env_file:
+      - path: .env
+        required: false
     volumes:
       - ./cache:/app/cache

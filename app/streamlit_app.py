@@ -95,9 +95,7 @@ o = orch()
 with st.sidebar:
     st.markdown("## ⚡ GridMind")
     st.caption("Agentic renewable-energy orchestrator · **Claim: F3 / D2**")
-    llm_label = {"auto": "Claude (live)", "on": "Claude (live)", "replay": "Claude (cached replay)",
-                 "off": "Offline · deterministic agents"}[o.llm.mode]
-    st.markdown(f"**Agents:** {llm_label}")
+    st.markdown(f"**Agents:** {o.llm.label}")
     with st.expander("Scenario", expanded=False):
         start = st.text_input("Start (IST)", st.session_state.get("start", "2025-10-22 12:00"))
         mode = st.selectbox("LLM mode", ["auto", "off", "replay"], index=["auto", "off", "replay"].index(

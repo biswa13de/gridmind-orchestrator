@@ -6,7 +6,7 @@
 Every 15 minutes, GridMind decides how to run a portfolio of 5 solar parks, 3 wind farms, 2 batteries and 4 industrial loads, with grid and market access. Its decisions cover charging, discharging or holding storage, buying or selling, curtailing, shifting or shedding load, and scheduling or delaying maintenance. It explains each decision, keeps a human in charge of high-impact actions, and recovers when assets fail.
 
 > **Optimiser for arithmetic. Agents for judgment. Humans in the lead.**
-> A Claude-powered *Strategist* chooses the optimality criteria for the current situation: objective weights, reserve floors and banned actions. A scenario-based MPC (an LP solved by HiGHS) turns those criteria into MW setpoints. A deterministic validator and a human approval gate stand between every decision and the assets. **The LLM never outputs a megawatt value.**
+> An LLM-powered *Strategist* (Gemini 3.5 Flash by default) chooses the optimality criteria for the current situation: objective weights, reserve floors and banned actions. A scenario-based MPC (an LP solved by HiGHS) turns those criteria into MW setpoints. A deterministic validator and a human approval gate stand between every decision and the assets. **The LLM never outputs a megawatt value.**
 
 ![Control room](docs/screenshots/control_room.png)
 
@@ -49,12 +49,12 @@ docker compose up --build        # open http://localhost:8501
 python -m venv .venv && source .venv/bin/activate
 make install                     # pinned deps + package
 make app                         # operator console at http://localhost:8501
-make test                        # 22 tests (optimizer physics, validator, guardrails, perception, LLM path, UI)
+make test                        # 26 tests (optimizer physics, validator, guardrails, perception, LLM path, UI)
 make demo                        # the demo storyline, headless -> logs/sample_demo_day.jsonl
 make eval                        # forecast calibration + chaos + 30-day backtest + Monte Carlo
 ```
 
-**Claude (optional).** Copy `.env.example` to `.env` and set `ANTHROPIC_API_KEY`. The Strategist and Perception agents then use `claude-opus-5-5`, with structured outputs, guardrails and a response cache. Without a key, both agents run their deterministic implementations under the same contract, so the evaluation is fully reproducible. `GRIDMIND_LLM=replay` serves only cached Claude responses, which gives deterministic demo recordings.
+**LLM (optional).** Copy `.env.example` to `.env` and set `GEMINI_API_KEY`. The Strategist and Perception agents then use **Gemini 3.5 Flash** (`gemini-3.5-flash`; change it with `GEMINI_MODEL`), with JSON-schema structured outputs, guardrails and a response cache. PDFs are sent to the model as native documents. Claude is supported as an alternative provider (`ANTHROPIC_API_KEY`, `GRIDMIND_PROVIDER=anthropic`). Without any key, both agents run their deterministic implementations under the same contract, so the evaluation is fully reproducible. `GRIDMIND_LLM=replay` serves only cached LLM responses, which gives deterministic demo recordings.
 
 ## Demo in 60 seconds
 
@@ -93,10 +93,10 @@ gridmind/          core package
   twin.py          digital twin + event injector
   scenarios.py     seeded stress events + bulletins
   montecarlo.py    F3 simulator
-  llm.py           Claude client (structured outputs, cache, offline mode)
+  llm.py           LLM client: Gemini / Claude, structured outputs, cache, offline mode
 app/               Streamlit operator console
 eval/              backtest, chaos suite, Monte Carlo, forecast eval -> eval/results/
-tests/             22 tests
+tests/             26 tests
 data/weather/      real 2025 weather for 8 sites   data/samples/  bulletins, notices, work order
 docs/              architecture diagram, screenshots    logs/  sample decision log
 ```
@@ -105,9 +105,9 @@ docs/              architecture diagram, screenshots    logs/  sample decision l
 
 - Demand, prices, carbon intensity and frequency are **synthetic**, though realistic and documented. Weather is real. See [DATA.md](DATA.md).
 - The network model is a corridor-capacity model, not AC power flow.
-- The evaluation runs the deterministic agents so that it is reproducible. The Claude path is tested with a stub client and works live when an API key is set.
+- The evaluation runs the deterministic agents so that it is reproducible. The LLM path (Gemini and Claude) is tested with stub clients and runs live when an API key is set.
 - Perception handles text and PDF, not images or weather maps. That is why we claim **D2, not D3**.
 
 ## Credits
 
-Open-Meteo (weather data, CC BY 4.0), HiGHS, SciPy, scikit-learn, pandas, NumPy, Streamlit, Plotly, Pydantic, pypdf, Anthropic Python SDK and reportlab. MIT licence.
+Open-Meteo (weather data, CC BY 4.0), HiGHS, SciPy, scikit-learn, pandas, NumPy, Streamlit, Plotly, Pydantic, pypdf, Google Gen AI SDK, Anthropic Python SDK and reportlab. MIT licence.

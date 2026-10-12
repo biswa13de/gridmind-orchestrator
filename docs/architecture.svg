@@ -22,7 +22,7 @@
   <text x="30" y="60" class="s">Optimiser for arithmetic · agents for judgment · humans in the lead</text>
 
   <!-- legend -->
-  <rect x="760" y="22" width="16" height="12" class="ai" rx="3"/><text x="782" y="33" class="s">LLM agent (Claude, with deterministic fallback)</text>
+  <rect x="760" y="22" width="16" height="12" class="ai" rx="3"/><text x="782" y="33" class="s">LLM agent (Gemini 3.5 Flash, deterministic fallback)</text>
   <rect x="760" y="42" width="16" height="12" class="det" rx="3"/><text x="782" y="53" class="s">ML / optimisation</text>
   <rect x="960" y="42" width="16" height="12" class="safe" rx="3"/><text x="982" y="53" class="s">Deterministic safety</text>
   <rect x="760" y="62" width="16" height="12" class="hum" rx="3"/><text x="782" y="73" class="s">Human operator</text>
@@ -123,7 +123,7 @@
   <text x="835" y="607" class="t">Evaluation harness</text>
   <text x="835" y="629" class="s">30-day held-out backtest × 4 controllers</text>
   <text x="835" y="646" class="s">calm + stress regimes · 0 violations</text>
-  <text x="835" y="663" class="s">12-scenario chaos suite · 16 unit tests</text>
+  <text x="835" y="663" class="s">12-scenario chaos suite · 26 tests</text>
   <text x="835" y="690" class="s">forecast coverage on held-out months</text>
 
   <!-- arrows -->

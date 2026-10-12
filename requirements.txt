@@ -1,5 +1,6 @@
 # Pinned, tested versions (Python 3.12). `pip install -r requirements.txt && pip install -e .`
 anthropic==1.13.0
+google-genai==2.29.0
 highspy==1.15.1
 joblib==1.6.0
 numpy==2.5.4
