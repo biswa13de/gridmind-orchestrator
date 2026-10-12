@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+cache/
+logs/*.jsonl
+!logs/sample_*.jsonl
+.DS_Store
+*.egg-info/
+build/
+dist/

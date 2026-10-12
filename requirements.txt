@@ -1,0 +1,15 @@
+# Pinned, tested versions (Python 3.12). `pip install -r requirements.txt && pip install -e .`
+anthropic==1.13.0
+highspy==1.15.1
+joblib==1.6.0
+numpy==2.5.4
+pandas==3.0.6
+plotly==7.1.0
+pydantic==2.14.1
+pypdf==6.20.0
+pyyaml==6.0.3
+scikit-learn==1.9.1
+scipy==1.18.1
+streamlit==1.65.0
+tabulate==0.10.0
+pytest==9.1.1

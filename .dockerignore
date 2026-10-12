@@ -1,0 +1,6 @@
+.venv
+.git
+cache
+__pycache__
+.pytest_cache
+eval/results/trace_*.csv.gz

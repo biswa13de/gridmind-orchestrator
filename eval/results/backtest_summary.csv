@@ -1,0 +1,9 @@
+regime,strategy,total_cost_lakh_inr,saving_vs_rules_pct,pct_of_perfect_forecast_savings,operating_cost_excl_voll_lakh,carbon_t,curtailment_mwh,renewable_util_pct,unserved_mwh,violations,validator_repairs,mean_solve_ms
+calm,Rule-based EMS (baseline),5740.6,0.0,0.0,5421.0,56960.0,0.0,100.0,159.81,0,0,0.0
+calm,Deterministic MPC (ablation),5276.0,8.09,92.3,5276.0,57015.0,0.0,100.0,0.0,0,0,8.1
+calm,"GridMind (agentic, scenario-MPC)",5282.4,7.98,91.0,5282.4,57077.0,0.0,100.0,0.0,0,0,51.9
+calm,Perfect-forecast MPC (reference),5237.1,8.77,100.0,5237.1,57066.0,0.0,100.0,0.0,0,0,7.8
+stress,Rule-based EMS (baseline),6671.2,0.0,0.0,5612.7,57418.0,3.7,99.99,529.29,0,8,0.0
+stress,Deterministic MPC (ablation),5600.2,16.05,91.5,5518.0,57716.0,3.7,99.99,41.12,0,29,7.7
+stress,"GridMind (agentic, scenario-MPC)",5462.5,18.12,103.3,5462.5,57016.0,17.6,99.94,0.0,0,42,52.4
+stress,Perfect-forecast MPC (reference),5501.3,17.54,100.0,5489.2,57803.0,3.7,99.99,6.05,0,5,7.2

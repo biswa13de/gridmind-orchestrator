@@ -1,0 +1,53 @@
+# GridMind portfolio definition.
+# Asset specs are plausible, documented assumptions (see DATA.md) — not a real utility's data.
+# Units: MW for power, MWh for energy, INR for money, tCO2/MWh for carbon intensity.
+
+timestep_minutes: 15
+horizon_steps: 96           # 24 h MPC horizon
+scenarios: 8                # K scenarios for scenario-MPC
+
+solar:
+  - {id: SOL-1, name: Bhadla (RJ),      lat: 27.53, lon: 71.92, capacity_mw: 60, line: L-NORTH}
+  - {id: SOL-2, name: Charanka (GJ),    lat: 23.90, lon: 71.20, capacity_mw: 40, line: L-NORTH}
+  - {id: SOL-3, name: Pavagada (KA),    lat: 14.10, lon: 77.28, capacity_mw: 50, line: L-SOUTH}
+  - {id: SOL-4, name: Kurnool (AP),     lat: 15.68, lon: 78.15, capacity_mw: 35, line: L-SOUTH}
+  - {id: SOL-5, name: Rewa (MP),        lat: 24.53, lon: 81.30, capacity_mw: 30, line: L-NORTH}
+
+wind:
+  - {id: WND-1, name: Muppandal (TN),   lat: 8.26,  lon: 77.55, capacity_mw: 45, line: L-SOUTH}
+  - {id: WND-2, name: Kutch (GJ),       lat: 23.20, lon: 69.70, capacity_mw: 50, line: L-NORTH}
+  - {id: WND-3, name: Satara (MH),      lat: 17.60, lon: 73.90, capacity_mw: 30, line: L-SOUTH}
+
+# Simple wind power curve (m/s at hub height)
+wind_curve: {cut_in: 3.0, rated: 12.0, cut_out: 25.0}
+
+batteries:
+  - {id: BESS-1, energy_mwh: 80, power_mw: 40, eta_charge: 0.95, eta_discharge: 0.95,
+     soc_min_pct: 10, soc_max_pct: 95, soc_init_pct: 50, degradation_inr_per_mwh: 450}
+  - {id: BESS-2, energy_mwh: 50, power_mw: 25, eta_charge: 0.94, eta_discharge: 0.94,
+     soc_min_pct: 10, soc_max_pct: 95, soc_init_pct: 50, degradation_inr_per_mwh: 550}
+
+loads:
+  - {id: LD-STEEL,  name: Steel rolling mill,   base_mw: 70, profile: three_shift, dr_max_mw: 15, shiftable_mw: 10}
+  - {id: LD-CEMENT, name: Cement plant,         base_mw: 45, profile: two_shift,   dr_max_mw: 8,  shiftable_mw: 8}
+  - {id: LD-DATA,   name: Data centre,          base_mw: 25, profile: flat,        dr_max_mw: 0,  shiftable_mw: 0}
+  - {id: LD-TEXT,   name: Textile cluster,      base_mw: 30, profile: day_shift,   dr_max_mw: 6,  shiftable_mw: 5}
+
+# Transmission corridors from asset clusters to the load centre.
+lines:
+  - {id: L-NORTH, capacity_mw: 150}
+  - {id: L-SOUTH, capacity_mw: 130}
+
+grid:
+  import_limit_mw: 150            # interconnection agreement (binds at night peaks)
+  export_limit_mw: 120
+  sell_discount: 0.92            # export realisation vs. market price (fees, deviation charges)
+  nominal_frequency_hz: 50.0
+  frequency_reserve_mw: 10       # headroom kept for primary frequency response
+
+market:
+  carbon_price_inr_per_t: 2000   # shadow carbon price (CCTS-style), assumption
+  dr_incentive_inr_per_mwh: 6000 # payment to industrial customers per MWh of DR
+  voll_inr_per_mwh: 200000       # value of lost load (unserved energy penalty)
+  curtailment_penalty_inr_per_mwh: 300
+  load_shift_cost_inr_per_mwh: 500

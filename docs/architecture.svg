@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#52514e"/>
+    </marker>
+    <style>
+      .box{fill:#ffffff;stroke:#c9c8c2;stroke-width:1.5;rx:10}
+      .ai{fill:#f1effc;stroke:#6250d6;stroke-width:1.8}
+      .det{fill:#eaf2fb;stroke:#2a78d6;stroke-width:1.8}
+      .safe{fill:#e8f6ef;stroke:#1baf7a;stroke-width:1.8}
+      .hum{fill:#fdf0e9;stroke:#eb6834;stroke-width:1.8}
+      .t{font-size:15px;font-weight:700;fill:#0b0b0b}
+      .s{font-size:12px;fill:#52514e}
+      .k{font-size:11px;fill:#8a8984;font-weight:600;letter-spacing:.06em}
+      .l{stroke:#52514e;stroke-width:1.6;fill:none;marker-end:url(#a)}
+      .d{stroke:#8a8984;stroke-width:1.3;fill:none;stroke-dasharray:5 4;marker-end:url(#a)}
+      .e{font-size:11px;fill:#52514e;font-style:italic}
+    </style>
+  </defs>
+  <rect width="1200" height="760" fill="#fcfcfb"/>
+  <text x="30" y="38" font-size="22" font-weight="800" fill="#0b0b0b">GridMind: one 15-minute control cycle</text>
+  <text x="30" y="60" class="s">Optimiser for arithmetic · agents for judgment · humans in the lead</text>
+
+  <!-- legend -->
+  <rect x="760" y="22" width="16" height="12" class="ai" rx="3"/><text x="782" y="33" class="s">LLM agent (Claude, with deterministic fallback)</text>
+  <rect x="760" y="42" width="16" height="12" class="det" rx="3"/><text x="782" y="53" class="s">ML / optimisation</text>
+  <rect x="960" y="42" width="16" height="12" class="safe" rx="3"/><text x="982" y="53" class="s">Deterministic safety</text>
+  <rect x="760" y="62" width="16" height="12" class="hum" rx="3"/><text x="782" y="73" class="s">Human operator</text>
+
+  <!-- inputs -->
+  <rect x="30" y="100" width="250" height="110" rx="10" class="box"/>
+  <text x="45" y="125" class="k">WORLD / DIGITAL TWIN</text>
+  <text x="45" y="147" class="t">Telemetry (SCADA)</text>
+  <text x="45" y="167" class="s">5 solar · 3 wind · 2 BESS · 4 loads</text>
+  <text x="45" y="184" class="s">price · carbon · frequency · line caps</text>
+  <text x="45" y="201" class="s">real 2025 weather (Open-Meteo)</text>
+
+  <rect x="30" y="235" width="250" height="95" rx="10" class="box"/>
+  <text x="45" y="260" class="k">EXTERNAL DOCUMENTS</text>
+  <text x="45" y="282" class="t">Storm bulletins · notices</text>
+  <text x="45" y="302" class="s">PDF / text · grid notices · work orders</text>
+  <text x="45" y="319" class="s">untrusted: may contain injections</text>
+
+  <!-- perception -->
+  <rect x="330" y="235" width="240" height="95" rx="10" class="ai"/>
+  <text x="345" y="260" class="k">AGENT</text>
+  <text x="345" y="282" class="t">Perception</text>
+  <text x="345" y="302" class="s">documents → typed constraints</text>
+  <text x="345" y="319" class="s">schema-bound · validated · injection flags</text>
+
+  <!-- forecast -->
+  <rect x="330" y="100" width="240" height="110" rx="10" class="det"/>
+  <text x="345" y="125" class="k">ML</text>
+  <text x="345" y="147" class="t">Forecast agent</text>
+  <text x="345" y="167" class="s">quantile GBM: P10 / P50 / P90</text>
+  <text x="345" y="184" class="s">online adaptive conformal calibration</text>
+  <text x="345" y="201" class="s">K correlated scenarios</text>
+
+  <!-- assess + strategist -->
+  <rect x="620" y="100" width="260" height="230" rx="10" class="ai"/>
+  <text x="635" y="125" class="k">AGENT</text>
+  <text x="635" y="147" class="t">Situation assessment + Strategist</text>
+  <text x="635" y="171" class="s">label: normal · storm · price spike ·</text>
+  <text x="635" y="188" class="s">asset failure · congestion · uncertainty…</text>
+  <text x="635" y="214" class="s">outputs optimality criteria (F2):</text>
+  <text x="645" y="232" class="s">• objective weights (sum = 1)</text>
+  <text x="645" y="249" class="s">• battery reserve floors</text>
+  <text x="645" y="266" class="s">• banned actions · approval requests</text>
+  <text x="645" y="283" class="s">• rationale + confidence</text>
+  <text x="635" y="309" class="s">guardrails → retry once → rule profile</text>
+
+  <!-- human gate -->
+  <rect x="930" y="100" width="240" height="110" rx="10" class="hum"/>
+  <text x="945" y="125" class="k">HUMAN IN THE LEAD</text>
+  <text x="945" y="147" class="t">Approval queue</text>
+  <text x="945" y="167" class="s">demand response · maintenance</text>
+  <text x="945" y="184" class="s">schedule / delay · crew dispatch</text>
+  <text x="945" y="201" class="s">nothing high-impact runs unapproved</text>
+
+  <!-- optimizer -->
+  <rect x="620" y="380" width="260" height="120" rx="10" class="det"/>
+  <text x="635" y="405" class="k">TOOL</text>
+  <text x="635" y="427" class="t">Scenario-MPC optimiser</text>
+  <text x="635" y="447" class="s">LP · HiGHS · 96 steps × K scenarios</text>
+  <text x="635" y="464" class="s">shared first step (non-anticipative)</text>
+  <text x="635" y="481" class="s">~17k vars · ~50 ms · only MW source</text>
+
+  <!-- validator -->
+  <rect x="330" y="380" width="240" height="120" rx="10" class="safe"/>
+  <text x="345" y="405" class="k">DETERMINISTIC</text>
+  <text x="345" y="427" class="t">Validator</text>
+  <text x="345" y="447" class="s">ratings · SOC · lines · import/export</text>
+  <text x="345" y="464" class="s">no simultaneous charge/discharge</text>
+  <text x="345" y="481" class="s">re-closes balance · logs repairs</text>
+
+  <!-- executor -->
+  <rect x="30" y="380" width="250" height="120" rx="10" class="safe"/>
+  <text x="45" y="405" class="k">EXECUTE + RECOVER</text>
+  <text x="45" y="427" class="t">Executor</text>
+  <text x="45" y="447" class="s">setpoints → twin (one interval)</text>
+  <text x="45" y="464" class="s">setpoint deviation ⇒ fault detected</text>
+  <text x="45" y="481" class="s">asset isolated · re-plan · crew request</text>
+
+  <!-- outputs -->
+  <rect x="30" y="560" width="350" height="160" rx="10" class="box"/>
+  <text x="45" y="585" class="k">AUDIT</text>
+  <text x="45" y="607" class="t">Decision log (JSON per cycle)</text>
+  <text x="45" y="629" class="s">inputs · forecasts · situation · weights · rationale</text>
+  <text x="45" y="646" class="s">solver status · setpoints · repairs · approvals</text>
+  <text x="45" y="663" class="s">faults · recovery · executed dispatch</text>
+  <text x="45" y="690" class="s">→ operator console (Streamlit)</text>
+
+  <rect x="420" y="560" width="360" height="160" rx="10" class="det"/>
+  <text x="435" y="585" class="k">F3 · SIMULATION</text>
+  <text x="435" y="607" class="t">Monte Carlo simulator</text>
+  <text x="435" y="629" class="s">sampled weather days × event schedules × forecast</text>
+  <text x="435" y="646" class="s">errors · same loop, closed-loop, 48 h per run</text>
+  <text x="435" y="663" class="s">strategies compared as distributions</text>
+  <text x="435" y="690" class="s">→ cost / carbon / unserved Pareto view</text>
+
+  <rect x="820" y="560" width="350" height="160" rx="10" class="safe"/>
+  <text x="835" y="585" class="k">D2 · EVIDENCE</text>
+  <text x="835" y="607" class="t">Evaluation harness</text>
+  <text x="835" y="629" class="s">30-day held-out backtest × 4 controllers</text>
+  <text x="835" y="646" class="s">calm + stress regimes · 0 violations</text>
+  <text x="835" y="663" class="s">12-scenario chaos suite · 16 unit tests</text>
+  <text x="835" y="690" class="s">forecast coverage on held-out months</text>
+
+  <!-- arrows -->
+  <path d="M280,155 L330,155" class="l"/>
+  <path d="M280,282 L330,282" class="l"/>
+  <path d="M570,155 L620,155" class="l"/>
+  <path d="M570,282 L620,282" class="l"/>
+  <path d="M880,155 L930,155" class="l"/>
+  <path d="M1050,210 L1050,440 L880,440" class="l"/>
+  <text x="1058" y="330" class="e">approved DR /</text>
+  <text x="1058" y="345" class="e">maintenance windows</text>
+  <path d="M750,330 L750,380" class="l"/>
+  <text x="758" y="360" class="e">weights · reserves · bans</text>
+  <path d="M450,210 L450,230 L600,230 L600,420 L620,420" class="d"/>
+  <text x="482" y="226" class="e">scenarios</text>
+  <path d="M620,440 L570,440" class="l"/>
+  <path d="M330,440 L280,440" class="l"/>
+  <path d="M30,455 L14,455 L14,170 L28,170" class="l"/>
+  <text x="40" y="372" class="e">↺ next cycle (15 min)</text>
+  <path d="M155,500 L155,560" class="d"/>
+  <path d="M750,500 L750,530 L600,530 L600,560" class="d"/>
+</svg>

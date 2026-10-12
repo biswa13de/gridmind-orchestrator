@@ -1,0 +1,6 @@
+strategy,runs,cost_mean_lakh,cost_p5,cost_p50,cost_p95,cost_cvar95,carbon_mean_t,unserved_mean_mwh,p_any_unserved,violations,pareto_efficient
+Cost-first,100,347.15,271.955,347.007,430.08,529.167,3652.86,3.663,0.2,0,False
+Green-first,100,345.099,270.071,343.942,417.839,514.661,3642.24,2.935,0.1,0,False
+Resilience-first,100,345.707,271.58,349.356,410.435,476.131,3666.432,1.147,0.08,0,False
+GridMind adaptive,100,338.892,271.7,342.612,408.114,431.795,3604.14,0.67,0.04,0,True
+Rule-based EMS,100,391.179,274.591,372.784,554.424,690.144,3624.866,22.887,0.74,0,False

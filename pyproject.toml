@@ -1,0 +1,35 @@
+[project]
+name = "gridmind"
+version = "0.1.0"
+description = "Agentic renewable energy orchestrator: LLM strategist + scenario-MPC optimiser + human-in-the-lead controls"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "scipy>=1.13",
+    "highspy>=1.7",
+    "scikit-learn>=1.5",
+    "joblib>=1.4",
+    "pyyaml>=6.0",
+    "pydantic>=2.7",
+    "anthropic>=1.0",
+    "pypdf>=4.0",
+    "streamlit>=1.40",
+    "plotly>=5.20",
+    "tabulate>=0.9",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "reportlab>=4.0"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["gridmind*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

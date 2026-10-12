@@ -1,0 +1,5 @@
+family,coverage_static,coverage_adaptive,p50_nmae
+demand,0.873,0.818,0.024
+price,0.781,0.827,0.06
+solar,0.921,0.784,0.029
+wind,0.683,0.784,0.049

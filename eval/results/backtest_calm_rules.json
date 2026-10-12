@@ -1,0 +1,23 @@
+{
+  "total_cost_inr": 574060076.4567759,
+  "operating_cost_excl_voll_inr": 542098616.5047413,
+  "energy_cost_inr": 428158590.0884236,
+  "carbon_t": 56959.53249750251,
+  "curtailment_mwh": 0.0,
+  "renewable_utilisation_pct": 100.0,
+  "degradation_inr": 20961.421312023165,
+  "unserved_mwh": 159.807299760173,
+  "dr_mwh": 0.0,
+  "deviation_mwh": 0.0,
+  "violations": 0,
+  "shift_balance_mwh": 0.0,
+  "steps": 2880,
+  "mode": "rules",
+  "regime": "calm",
+  "validator_repairs": 0,
+  "runtime_s": 0.4,
+  "mean_solve_ms": 0.0,
+  "situations": {},
+  "documents_read": 0,
+  "approvals": 0
+}
